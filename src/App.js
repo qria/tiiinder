@@ -1,53 +1,90 @@
-import logo from './logo.svg';
 import React, { useState } from 'react'
 import './App.css';
 import TinderCard from 'react-tinder-card';
 
 
-const db = [
+// more candidates
+// dainty - 귀엽고 깜찍하다
+// dolor - 고통
+// blight - 병충해
+// noisome - 악취
+
+// Currently assumes questions are shown in the order in this list.
+const words = [
   {
-    name: 'Richard Hendricks'
+    word: 'jilt',
+    answer: 'left',
+    commentary: '애인을 가지고 놀다가 차버리는 것을 좋아하',
   },
   {
-    name: 'Erlich Bachman'
+    word: 'rectitude',
+    answer: 'right',
+    commentary: '청렴한 것을 싫어하',
   },
   {
-    name: 'Monica Hall'
+    word: 'erudite',
+    answer: 'right',
+    commentary: '박식한 사람을 싫어하',
   },
   {
-    name: 'Jared Dunn'
+    word: 'pundit',
+    answer: 'right',
+    commentary: '전문가들을 싫어하',
   },
   {
-    name: 'Dinesh Chugtai'
-  }
+    word: 'libel',
+    answer: 'left',
+    commentary: '명예훼손을 즐기',
+  },
+  {
+    word: 'cordial',
+    answer: 'right',
+    commentary: '다정한 것을 싫어하',
+  },
+  {
+    word: 'philistine',
+    answer: 'left',
+    commentary: '교양없고 속물적인 사람을 좋아하',
+  },
+  {
+    word: 'candor',
+    answer: 'right',
+    commentary: '정직한 것을 싫어하',
+  },
+  {
+    word: 'upbraid',
+    answer: 'left',
+    commentary: '남의 잘못을 비난하는 것을 좋아하',
+  },
+  {
+    word: 'progidal',
+    answer: 'left',
+    commentary: '방탕한 것을 좋아하',
+  },
 ]
 
 function App() {
   
-  const characters = db
-  const [lastDirection, setLastDirection] = useState()
+  const [directions, setDirections] = useState([])
 
-  const swiped = (direction, nameToDelete) => {
-    console.log('removing: ' + nameToDelete)
-    setLastDirection(direction)
+  const onCardLeftScreen = (direction) => {
+    setDirections(directions => [...directions, direction])
   }
-
-  const outOfFrame = (name) => {
-    console.log(name + ' left the screen!')
-  }
-
   return (
     <div className="App">
       
-      <link href='https://fonts.googleapis.com/css?family=Damion&display=swap' rel='stylesheet' />
-      <link href='https://fonts.googleapis.com/css?family=Alatsi&display=swap' rel='stylesheet' />
-      
       <h1>Tiiinder</h1>
       <div className='cardContainer'>
-        {characters.map((character) =>
-          <TinderCard className='swipe' key={character.name} onSwipe={(dir) => swiped(dir, character.name)} onCardLeftScreen={() => outOfFrame(character.name)}>
+        
+        {words.map((character) =>
+          <TinderCard 
+            className='swipe' 
+            key={character.word} 
+            onCardLeftScreen={onCardLeftScreen}
+            preventSwipe={['up', 'down']}  
+          >
             <div className='card'>
-              <h3>{character.name}</h3>
+              <h3>{character.word}</h3>
             </div>
           </TinderCard>
         )}

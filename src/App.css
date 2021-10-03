@@ -53,7 +53,7 @@ h2 {
 
 .card {
   position: relative;
-  background-color: #000;
+  background-color: #fff;
   width: 80vw;
   max-width: 260px;
   height: 300px;
@@ -72,7 +72,7 @@ h2 {
 }
 
 .card h3 {
-  color: #fff;
+  color: grey;
 }
 
 .infoText {
