@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './App.css';
 import TinderCard from 'react-tinder-card';
 
@@ -64,30 +64,75 @@ const words = [
 ]
 
 function App() {
-  
+
   const [directions, setDirections] = useState([])
+  const [guideShown, setGuideShown] = useState(false)
+  const endShown = directions.length === words.length
+
+  useEffect(() => setTimeout(() => setGuideShown(true), 50), [])
 
   const onCardLeftScreen = (direction) => {
     setDirections(directions => [...directions, direction])
   }
   return (
     <div className="App">
-      
+
       <h1>Tiiinder</h1>
       <div className='cardContainer'>
-        
-        {words.map((character) =>
-          <TinderCard 
-            className='swipe' 
-            key={character.word} 
+
+        {words.map((word) =>
+          <TinderCard
+            className='swipe'
+            key={word.word}
             onCardLeftScreen={onCardLeftScreen}
-            preventSwipe={['up', 'down']}  
+            preventSwipe={['up', 'down']}
           >
             <div className='card'>
-              <h3>{character.word}</h3>
+              <h3>{word.word}</h3>
             </div>
           </TinderCard>
         )}
+      </div>
+
+      <div className={"modal" + (guideShown ? " show" : "")}>
+
+        <div className="modal-content">
+          <div className="modal-header">
+            <h2>Tiiinder</h2>
+          </div>
+          <div className="modal-body">
+            <p>주어진 영어단어에</p>
+            <p>좋으면 오른쪽, 안좋으면 왼쪽으로 스와이프하세요</p>
+          </div>
+          <div className="modal-footer">
+            <h3 onClick={() => setGuideShown(false)}>Start</h3>
+          </div>
+        </div>
+      </div>
+
+      <div className={"modal" + (endShown ? " show" : "")}>
+
+        <div className="modal-content">
+          <div className="modal-header">
+            <h2>결과</h2>
+          </div>
+          <div className="modal-body">
+
+            <p>당신은...</p>
+            {[...Array(words.length).keys()].map((i) =>{
+              const word = words[i];
+              const direction = directions[i];
+              if (direction !== word.answer){
+                return (<p key={i}>{word.word} {direction} {word.commentary}고</p>);
+              }
+              }
+            )}
+            <p>하는 사람이군요...</p>
+          </div>
+          <div className="modal-footer">
+            <h3>다시하기</h3>
+          </div>
+        </div>
       </div>
     </div>
   );
