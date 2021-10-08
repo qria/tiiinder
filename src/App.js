@@ -69,6 +69,13 @@ function App() {
   const [guideShown, setGuideShown] = useState(false)
   const endShown = directions.length === words.length
 
+  const commentaries = []
+  for(const i in directions){
+    if (directions[i] !== words[i].answer){
+      commentaries.push(words[i].commentary)
+    }
+  }
+
   useEffect(() => setTimeout(() => setGuideShown(true), 50), [])
 
   const onCardLeftScreen = (direction) => {
@@ -119,14 +126,9 @@ function App() {
           <div className="modal-body">
 
             <p>당신은...</p>
-            {[...Array(words.length).keys()].map((i) =>{
-              const word = words[i];
-              const direction = directions[i];
-              if (direction !== word.answer){
-                return (<p key={i}>{word.word} {direction} {word.commentary}고</p>);
-              }
-              }
-            )}
+            {commentaries.map((commentary) => {
+                return (<p>{commentary}고</p>);
+            })}
             <p>하는 사람이군요...</p>
           </div>
           <div className="modal-footer">
